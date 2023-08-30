@@ -1,6 +1,7 @@
 package com.example.jetpackcomposeapp
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.clickable
@@ -14,6 +15,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -21,9 +23,11 @@ import androidx.compose.ui.unit.sp
 import com.example.jetpackcomposeapp.api.ApiService
 import com.example.jetpackcomposeapp.api.RetrofitClient.retrofit
 import com.example.jetpackcomposeapp.model.Pokemon
+import com.example.jetpackcomposeapp.model.PokemonDetail
 import com.example.jetpackcomposeapp.ui.theme.JetpackComposeAppTheme
 import kotlinx.coroutines.launch
 import java.util.Locale
+import kotlin.coroutines.coroutineContext
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,9 +60,6 @@ fun PokemonListScreen(repository: PokemonRepository) {
     LazyColumn {
         items(pokemonList) { pokemon ->
             Text(text = pokemon.name.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() }, modifier = Modifier.padding(16.dp).clickable {
-                coroutineScope.launch {
-                    repository.getPokemonDetail(pokemon.name)
-                }
             }, fontSize = 30.sp)
         }
 
