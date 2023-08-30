@@ -1,6 +1,6 @@
 package com.example.jetpackcomposeapp.model
 
-data class PokemonBasic(
+data class Pokemon(
     val name: String,
     val url: String
 )

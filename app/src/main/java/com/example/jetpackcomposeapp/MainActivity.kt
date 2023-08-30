@@ -1,42 +1,29 @@
 package com.example.jetpackcomposeapp
 
-import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import androidx.paging.LoadState
 import com.example.jetpackcomposeapp.api.ApiService
-import com.example.jetpackcomposeapp.api.Pokemon
-import com.example.jetpackcomposeapp.api.RetrofitClient.apiService
 import com.example.jetpackcomposeapp.api.RetrofitClient.retrofit
-import com.example.jetpackcomposeapp.model.PokemonBasic
+import com.example.jetpackcomposeapp.model.Pokemon
 import com.example.jetpackcomposeapp.ui.theme.JetpackComposeAppTheme
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,7 +55,11 @@ fun PokemonListScreen(repository: PokemonRepository) {
 
     LazyColumn {
         items(pokemonList) { pokemon ->
-            Text(text = pokemon.name, modifier = Modifier.padding(16.dp))
+            Text(text = pokemon.name.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() }, modifier = Modifier.padding(16.dp).clickable {
+                coroutineScope.launch {
+                    repository.getPokemonDetail(pokemon.name)
+                }
+            }, fontSize = 30.sp)
         }
 
         if (pokemonList.size < 1281) {

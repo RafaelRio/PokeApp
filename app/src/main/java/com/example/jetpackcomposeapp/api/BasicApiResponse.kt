@@ -1,10 +1,6 @@
 package com.example.jetpackcomposeapp.api
 
-import com.example.jetpackcomposeapp.model.PokemonBasic
+import com.example.jetpackcomposeapp.model.Pokemon
 
-data class BasicApiResponse(
-    val count: Int,
-    val next: String?,
-    val previous: String?,
-    val results: List<PokemonBasic>
-)
+data class PokemonListResponse(val count: Int, val next: String?, val previous: String?, val results: List<Pokemon>)
+
