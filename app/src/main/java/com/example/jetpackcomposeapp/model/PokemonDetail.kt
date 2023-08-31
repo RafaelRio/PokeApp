@@ -1,12 +1,17 @@
 package com.example.jetpackcomposeapp.model
 
+import com.google.gson.annotations.SerializedName
+
 data class PokemonDetail(
-    val base_experience: Int = 0,
+    @SerializedName("base_experience") val baseExperience: Int = 0,
     val height: Int = 0,
     val id: Int = 0,
-    val is_default: Boolean = true,
-    val location_area_encounters: String = "",
+    @SerializedName("is_default") val isDefault: Boolean = true,
+    @SerializedName("location_area_encounters") val locationAreaEncounters: String = "",
     val name: String = "",
     val order: Int = 0,
-    val weight: Int = 0
+    val weight: Int = 0,
+    val abilities: List<Abilities> = emptyList(),
+    val sprites: Sprite = Sprite(),
+    val moves: List<Move> = emptyList()
 )

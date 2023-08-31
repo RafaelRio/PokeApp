@@ -1,6 +1,6 @@
 package com.example.jetpackcomposeapp.model
 
-data class Pokemon(
+data class BasicApiResponse(
     val name: String,
     val url: String
 )
