@@ -39,6 +39,6 @@ fun Body(name: String) {
 
     if (pokemonDetail.moves.isNotEmpty()) {
         Text(text = pokemonDetail.moves.size.toString())
-        ImageFromUrl(url = pokemonDetail.sprites.frontDefault, size = 50)
+        ImageFromUrl(url = pokemonDetail.sprites.frontDefault, size = 150)
     }
 }
