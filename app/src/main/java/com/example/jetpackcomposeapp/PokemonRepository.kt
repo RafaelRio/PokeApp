@@ -2,6 +2,7 @@ package com.example.jetpackcomposeapp
 
 import com.example.jetpackcomposeapp.api.ApiService
 import com.example.jetpackcomposeapp.model.BasicApiResponse
+import com.example.jetpackcomposeapp.model.EvolutionChain
 import com.example.jetpackcomposeapp.model.PokemonDetail
 import com.example.jetpackcomposeapp.model.PokemonEspecie
 
@@ -18,5 +19,9 @@ class PokemonRepository(private val pokeApiService: ApiService) {
 
     suspend fun getPokemonEspecie(name: String): PokemonEspecie {
         return pokeApiService.getPokemonEspecie(name = name)
+    }
+
+    suspend fun getEvolutionChain(id: Int) : EvolutionChain {
+        return pokeApiService.getEvolutionChain(id = id)
     }
 }

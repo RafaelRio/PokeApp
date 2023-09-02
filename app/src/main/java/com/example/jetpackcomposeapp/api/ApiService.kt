@@ -1,5 +1,6 @@
 package com.example.jetpackcomposeapp.api
 
+import com.example.jetpackcomposeapp.model.EvolutionChain
 import com.example.jetpackcomposeapp.model.PokemonDetail
 import com.example.jetpackcomposeapp.model.PokemonEspecie
 import retrofit2.Response
@@ -22,4 +23,8 @@ interface ApiService {
         @Path("name") name: String
     ): PokemonEspecie
 
+    @GET("evolution-chain/{id}")
+    suspend fun getEvolutionChain(
+        @Path("id") id: Int
+    ): EvolutionChain
 }

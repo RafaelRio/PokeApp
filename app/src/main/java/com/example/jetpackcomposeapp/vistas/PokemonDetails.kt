@@ -37,6 +37,7 @@ import com.example.jetpackcomposeapp.R
 import com.example.jetpackcomposeapp.api.RetrofitClient.apiService
 import com.example.jetpackcomposeapp.composeUtils.ImageFromUrl
 import com.example.jetpackcomposeapp.composeUtils.TopBar
+import com.example.jetpackcomposeapp.model.EvolutionChain
 import com.example.jetpackcomposeapp.model.PokemonDetail
 import com.example.jetpackcomposeapp.model.PokemonEspecie
 import com.example.jetpackcomposeapp.ui.theme.AbilityBackgroundColor
@@ -74,6 +75,7 @@ fun PokemonDetails(navController: NavController, name: String?) {
 fun Body(name: String) {
     var pokemonDetail by remember { mutableStateOf(PokemonDetail()) }
     var pokemonEspecie by remember { mutableStateOf(PokemonEspecie()) }
+    var evolutionChain by remember { mutableStateOf(EvolutionChain()) }
 
     LaunchedEffect(name) {
         val repository = PokemonRepository(apiService)
@@ -91,15 +93,36 @@ fun Body(name: String) {
             }
         }
     }
+    if (pokemonEspecie.evolutionChain.url.isNotEmpty()) {
+        LaunchedEffect(pokemonDetail.id) {
+            val repository = PokemonRepository(apiService)
+            val newEvolutionChain =
+                repository.getEvolutionChain(id = obtainUrlNumber(pokemonEspecie.evolutionChain.url)!!.toInt())
+            evolutionChain = newEvolutionChain
+        }
+    }
     PokemonInfo(pokemonDetail = pokemonDetail)
 
     PokemonAbilities(pokemonDetail = pokemonDetail)
 
     if (pokemonEspecie.flavorTextEntries.isNotEmpty()) {
-        Text(text = pokemonEspecie.flavorTextEntries.first {
-            it.language?.name == "en"
-        }.flavorText.replace(oldValue = "\n", newValue = " ").replace(oldValue = "\u000c", newValue = " "))
+        Text(
+            text = pokemonEspecie.flavorTextEntries.first {
+                it.language?.name == "en"
+            }.flavorText.replace(oldValue = "\n", newValue = " ")
+                .replace(oldValue = "\u000c", newValue = " ")
+        )
     }
+
+    val evolutionChaina = evolutionChain.chain?.evolvesTo
+
+    val message = when {
+        evolutionChaina?.isNotEmpty() == true && evolutionChaina[0].evolvesTo.isNotEmpty() -> "Este pokemon tiene tres formas"
+        evolutionChaina?.isNotEmpty() == true -> "Este pokemon tiene dos formas"
+        else -> "Este pokemon no evoluciona"
+    }
+
+    Text(text = message)
 }
 
 @Composable
@@ -323,9 +346,11 @@ fun TypeText(type: String, foreground: Color, background: Color) {
 @Composable
 fun PokemonAbilities(pokemonDetail: PokemonDetail) {
     if (pokemonDetail.abilities.isNotEmpty()) {
-        Column(modifier = Modifier
-            .padding(horizontal = 15.dp)
-            .padding(top = 20.dp)) {
+        Column(
+            modifier = Modifier
+                .padding(horizontal = 15.dp)
+                .padding(top = 20.dp)
+        ) {
             Text(
                 text = "Abilities",
                 fontWeight = FontWeight.SemiBold,
@@ -356,4 +381,14 @@ fun AbilityText(ability: String) {
             .padding(vertical = 3.dp, horizontal = 10.dp)
 
     )
+}
+
+fun obtainUrlNumber(url: String): String? {
+    val regex = "/(\\d+)/".toRegex()
+    val matchResult = regex.find(url)
+    val number = matchResult?.groupValues?.get(1)
+    if (number != null) {
+        return number
+    }
+    return null
 }
