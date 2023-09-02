@@ -3,6 +3,7 @@ package com.example.jetpackcomposeapp.vistas
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -17,9 +18,11 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CardElevation
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -113,16 +116,15 @@ fun PokemonListScreen(repository: PokemonRepository, navController: NavControlle
 
 @Composable
 fun PokemonCard(pokemon: BasicApiResponse, navController: NavController) {
-    Box(
+    OutlinedCard(
+        shape = CardDefaults.outlinedShape,
+        border = BorderStroke(1.dp, Color.Blue),
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 5.dp)
             .clickable {
                 navController.navigate(route = Screen.PokemonDetail.route + "/" + pokemon.name)
             }
-            .clip(RoundedCornerShape(15.dp))
-            .background(Purple40) // Cambia el color de fondo de toda la tarjeta aquí
-
     ) {
         Text(
             text = pokemon.name.replaceFirstChar {
@@ -133,7 +135,7 @@ fun PokemonCard(pokemon: BasicApiResponse, navController: NavController) {
                 .padding(16.dp),
             textAlign = TextAlign.Start,
             fontSize = 18.sp,
-            color = Color.White // Cambia el color del texto dentro de la tarjeta si es necesario
+            color = Color.Black // Cambia el color del texto dentro de la tarjeta si es necesario
         )
     }
 }
