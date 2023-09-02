@@ -1,13 +1,17 @@
 package com.example.jetpackcomposeapp.composeUtils
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -39,9 +43,9 @@ fun ImageFromUrl(url: String?, size: Int) {
                 } else {
                     Image(
                         modifier = Modifier
-                            .size(width = size.dp, height = size.dp),
+                            .size(width = size.dp, height = size.dp).clip(CircleShape),
                         painter = painter,
-                        contentScale = ContentScale.Crop,
+                        contentScale = ContentScale.FillBounds,
                         contentDescription = "photo"
                     )
                 }
@@ -50,9 +54,10 @@ fun ImageFromUrl(url: String?, size: Int) {
     } else {
         Image(
             modifier = Modifier
-                .size(width = size.dp, height = size.dp),
+                .size(width = size.dp, height = size.dp).clip(CircleShape),
             painter = painterResource(id = R.drawable.ic_no_sprite),
             contentDescription = "photo"
+
         )
     }
 }

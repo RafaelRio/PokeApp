@@ -29,3 +29,6 @@ val GrassTypeColor = Color(0xFF78C850)
 val PsychicTypeColor = Color(0xFFF870A0)
 val RockTypeColor = Color(0xFFB8A058)
 val DarkTypeColor = Color(0xFF7A5848)
+
+//Ability Background Color
+val AbilityBackgroundColor = Color(0x5EB4ACA8)
