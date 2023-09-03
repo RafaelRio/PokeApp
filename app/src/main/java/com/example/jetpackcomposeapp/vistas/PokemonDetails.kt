@@ -104,25 +104,6 @@ fun Body(name: String) {
     PokemonInfo(pokemonDetail = pokemonDetail)
 
     PokemonAbilities(pokemonDetail = pokemonDetail)
-
-    if (pokemonEspecie.flavorTextEntries.isNotEmpty()) {
-        Text(
-            text = pokemonEspecie.flavorTextEntries.first {
-                it.language?.name == "en"
-            }.flavorText.replace(oldValue = "\n", newValue = " ")
-                .replace(oldValue = "\u000c", newValue = " ")
-        )
-    }
-
-    val evolutionChaina = evolutionChain.chain?.evolvesTo
-
-    val message = when {
-        evolutionChaina?.isNotEmpty() == true && evolutionChaina[0].evolvesTo.isNotEmpty() -> "Este pokemon tiene tres formas"
-        evolutionChaina?.isNotEmpty() == true -> "Este pokemon tiene dos formas"
-        else -> "Este pokemon no evoluciona"
-    }
-
-    Text(text = message)
 }
 
 @Composable
