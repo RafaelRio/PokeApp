@@ -148,3 +148,4 @@ fun PokemonCard(pokemon: PokemonDetail, navController: NavController) {
         )
     }
 }
+
